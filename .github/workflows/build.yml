@@ -1,0 +1,61 @@
+# Tests and builds every push and pull request on Apple Silicon. A tag `v*` also publishes the
+# build as a GitHub release: ProRes-Drop.dmg, ProRes-Drop.zip and SHA256SUMS, under names that
+# stay the same, so .../releases/latest/download/ProRes-Drop.dmg is always the newest.
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    permissions:
+      contents: write   # the release, on tags only
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # bin/package reads the last tag and the commit count
+
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+          sysctl -n machdep.cpu.brand_string
+
+      - name: Test, build, pack
+        run: bin/package
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prores-drop
+          path: |
+            dist/ProRes-Drop.dmg
+            dist/ProRes-Drop.zip
+            dist/SHA256SUMS
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          {
+            echo "ProRes Drop ${TAG#v} for Macs with Apple Silicon, macOS 14 or later."
+            echo
+            echo "Download **ProRes-Drop.dmg**, open it and drag the app onto Programme."
+            echo "The app is signed ad hoc, not notarised: macOS blocks it once, and"
+            echo "System Settings → Privacy & Security → Open Anyway lets it in."
+            echo "Guide in German: [docs/anleitung.md](https://github.com/${GITHUB_REPOSITORY}/blob/${TAG}/docs/anleitung.md)."
+            echo
+            echo '```'
+            cat dist/SHA256SUMS
+            echo '```'
+          } > notes.md
+          gh release create "$TAG" dist/ProRes-Drop.dmg dist/ProRes-Drop.zip dist/SHA256SUMS \
+            --title "ProRes Drop ${TAG#v}" --notes-file notes.md --verify-tag
