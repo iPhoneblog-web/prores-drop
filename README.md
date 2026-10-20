@@ -42,7 +42,8 @@ tools/                     the icon drawing, the playability check
 
 ## Install on Alex's Mac
 
-`bin/package` writes `dist/ProRes-Drop-<version>.zip`. Thorsten sends it to Alex; Alex follows
+`bin/package` writes `dist/ProRes-Drop-<version>.zip`, and each release on GitHub carries the zip
+of its tag. Thorsten sends it to Alex; Alex follows
 [docs/anleitung.md](docs/anleitung.md). The app is signed ad hoc, not with a Developer ID, so
 Gatekeeper asks once and Alex opens it through System Settings → Privacy & Security. Notarisation
 is in [docs/TODO.md](docs/TODO.md).
