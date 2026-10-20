@@ -1,0 +1,36 @@
+#!/bin/zsh
+# Builds ProRes Drop.app for Apple Silicon, signs it ad hoc, and zips it:
+#   bin/package            tests, build, dist/ProRes-Drop-<version>.zip
+#   bin/package --no-test  build only
+# The version is the last tag `v…` (or 0.0 before the first), the build number the commit count.
+set -euo pipefail
+cd "${0:A:h}/.."
+
+if [[ "${1:-}" != "--no-test" ]]; then
+  swift test
+fi
+
+version=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null | sed 's/^v//' || true)
+version=${version:-0.0}
+build=$(git rev-list --count HEAD 2>/dev/null || echo 0)
+
+swift build -c release --arch arm64 --product ProResDrop
+bin_dir=$(swift build -c release --arch arm64 --show-bin-path)
+
+app="dist/ProRes Drop.app"
+rm -rf dist
+mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
+cp "$bin_dir/ProResDrop" "$app/Contents/MacOS/ProResDrop"
+sed -e "s/@VERSION@/$version/" -e "s/@BUILD@/$build/" Resources/Info.plist > "$app/Contents/Info.plist"
+plutil -lint "$app/Contents/Info.plist" >/dev/null
+cp Resources/AppIcon.icns "$app/Contents/Resources/AppIcon.icns"
+cp -R Resources/de.lproj "$app/Contents/Resources/"
+printf 'APPL????' > "$app/Contents/PkgInfo"
+
+# Ad hoc: no identity. Gatekeeper asks once; README, "Install".
+codesign --force --deep --sign - --options runtime --timestamp=none "$app"
+codesign --verify --strict --verbose=2 "$app"
+
+zip_name="ProRes-Drop-$version.zip"
+(cd dist && ditto -c -k --sequesterRsrc --keepParent "ProRes Drop.app" "$zip_name")
+shasum -a 256 "dist/$zip_name"
