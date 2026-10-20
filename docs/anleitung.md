@@ -6,8 +6,9 @@ Hochladen in 4K online, statt nach einer halben Stunde.
 
 ## Installieren
 
-1. `ProRes-Drop-1.0.zip` doppelklicken. Es entsteht `ProRes Drop.app`.
-2. `ProRes Drop.app` in den Ordner **Programme** ziehen.
+1. [ProRes-Drop.dmg](https://github.com/iPhoneblog-web/prores-drop/releases/latest/download/ProRes-Drop.dmg) laden und öffnen.
+2. **ProRes Drop** auf **Programme** ziehen. Danach das Fenster schließen und „ProRes Drop“ in
+   der Finder-Seitenleiste auswerfen.
 3. Einmal doppelklicken. macOS sagt, es könne die App nicht prüfen, weil sie nicht von einem
    registrierten Entwickler kommt. Auf **Fertig** klicken.
 4. **Systemeinstellungen → Datenschutz & Sicherheit**, ganz nach unten: bei „ProRes Drop wurde
@@ -16,7 +17,8 @@ Hochladen in 4K online, statt nach einer halben Stunde.
    Mitteilungen erfährst du nicht, wann eine Datei fertig ist; das Fenster zeigt dann einen
    Hinweis mit **Einschalten …**.
 
-Danach startet die App wie jede andere.
+Danach startet die App wie jede andere. Für eine neue Version: wieder die DMG laden und die App
+in Programme ersetzen; die Einstellung bleibt.
 
 ## Benutzen
 

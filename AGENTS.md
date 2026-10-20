@@ -13,7 +13,10 @@ built by the `infra` repository (`~/localprojects/infra`, its own `AGENTS.md`, `
   `roles/encoder/files/video-encode` and its decisions; [docs/encoding.md](docs/encoding.md)
   names the source of each. Change a number there first, with the measurement that justifies it.
   Never guess a different one: ask Thorsten.
-- **Run `bin/package` before you push**: the tests, the release build, the signed bundle.
+- **The repository is public.** No secret, no internal hostname or address, no personal data in
+  code, pages or commit messages. Facts about the machines live in `infra`, which is private.
+- **Run `bin/package` before you push**: the tests, the release build, the signed bundle. CI
+  runs the same on every push and pull request; a red run is yours.
 - **Stage named paths.** Never `git add -A`, `git commit -a` or `git stash`.
 - **No signing identity without Thorsten's yes.** `bin/package` signs ad hoc. The Apple
   Development certificate on Thorsten's Mac does not get past Gatekeeper on another Mac anyway.
@@ -33,8 +36,10 @@ git -C <any checkout> worktree add ~/worktrees/prores-drop/<topic> -b <topic> or
 
 - **Every change is a pull request onto `main`.** Squash only, so one pull request is one commit.
   Never push to `main`.
-- **A release is a tag `v<major>.<minor>`** on `main`; `bin/package` reads it into the bundle's
-  version, and the zip goes onto the GitHub release of that tag.
+- **A release is a tag `v<major>.<minor>`** on `main`, pushed after the merge:
+  `git tag -a v1.2 -m "ProRes Drop 1.2" origin/main && git push origin v1.2`. CI builds it and
+  publishes the release; never upload a build from a Mac by hand. `bin/package` reads the tag
+  into the bundle's version.
 - **When merged:** `git worktree remove ~/worktrees/prores-drop/<topic>` and
   `git branch -d <topic>`.
 
