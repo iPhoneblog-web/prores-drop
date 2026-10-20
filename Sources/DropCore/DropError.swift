@@ -1,6 +1,6 @@
 import Foundation
 
-/// Every way a job can fail, with the sentence Alex reads. Short and plain, in German.
+/// Every way a job can fail, with the sentence the user reads. Short and plain, in German.
 public enum DropError: Error, Equatable, Sendable {
     case notAVideo
     case noVideoTrack

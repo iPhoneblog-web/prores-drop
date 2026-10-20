@@ -1,7 +1,7 @@
 import AppKit
 import Observation
 
-/// The one setting: where finished files go. Kept as a bookmark, so a folder Alex renames or
+/// The one setting: where finished files go. Kept as a bookmark, so a folder the user renames or
 /// moves is still found. The app is not sandboxed, so the bookmark needs no security scope.
 @MainActor
 @Observable
@@ -11,7 +11,7 @@ final class Destination {
     static var defaultFolder: URL {
         let movies = FileManager.default.urls(for: .moviesDirectory, in: .userDomainMask).first
             ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Movies")
-        return movies.appendingPathComponent("iPhoneBlog Uploads", isDirectory: true)
+        return movies.appendingPathComponent("ProRes Drop", isDirectory: true)
     }
 
     private(set) var folder: URL
@@ -28,7 +28,7 @@ final class Destination {
 
     var isDefault: Bool { folder.standardizedFileURL == Self.defaultFolder.standardizedFileURL }
 
-    /// The folder as a person reads it: `~/Movies/iPhoneBlog Uploads`.
+    /// The folder as a person reads it: `~/Movies/ProRes Drop`.
     var displayPath: String {
         (folder.path as NSString).abbreviatingWithTildeInPath
     }

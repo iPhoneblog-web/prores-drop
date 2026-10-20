@@ -13,7 +13,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>ProRes Drop</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.iphoneblog.prores-drop</string>
+	<string>io.github.prores-drop</string>
 	<key>CFBundleExecutable</key>
 	<string>ProResDrop</string>
 	<key>CFBundlePackageType</key>
@@ -34,8 +34,6 @@
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<false/>
-	<key>NSHumanReadableCopyright</key>
-	<string>iPhoneBlog.de</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

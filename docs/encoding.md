@@ -5,17 +5,17 @@ What ProRes Drop makes of a file, why, and what it measured. The numbers live in
 
 ## Why this format
 
-The server (`encoder`, infra `roles/encoder/files/video-encode`) encodes every upload into an
-HEVC ladder. Its 4K rung is x265 `slower` CRF 29 capped at 5 Mbit/s. Thorsten decided on
-2026-10-20 that an HEVC 4K upload at delivery size, at most about 6 Mbit/s, becomes `2160.mp4`
-by remux; the server then encodes only 1080, 720 and H.264, and `2160.mp4` is there within
-minutes instead of 27 or more (infra `docs/TODO.md`, "Uploads without a kept master"). ProRes
-uploads are allowed only up to one minute, because a minute is about 5 GB. ProRes Drop turns
-Alex's ProRes export into exactly that upload, on his Mac's media engine.
+The server this app feeds (its encoder lives in the private `infra` repository,
+`roles/encoder/files/video-encode`) encodes every upload into an HEVC ladder. Its 4K rung is x265
+`slower` CRF 29 capped at 5 Mbit/s. Since 2026-10-20 the plan is that an HEVC 4K upload at
+delivery size, at most about 6 Mbit/s, becomes the 4K file by remux; the server then encodes only
+1080, 720 and H.264, and the 4K file is there within minutes instead of 27 or more. ProRes
+uploads are allowed only up to one minute, because a minute is about 5 GB. ProRes Drop turns a
+ProRes export into exactly that upload, on the Mac's media engine.
 
-**The server's acceptance rule is not in `video-encode` yet** (origin/main e26df02,
-2026-10-20). When it lands, check this page against it: the bit-rate bound, whether audio counts,
-and what "delivery size" means for a source that is not 16:9.
+**The server's acceptance rule is not in `video-encode` yet** (2026-10-20). When it lands, check
+this page against it: the bit-rate bound, whether audio counts, and what "delivery size" means
+for a source that is not 16:9.
 
 ## What comes out
 
@@ -76,8 +76,8 @@ Quality against x265 `slower` CRF 29 with `vbv-maxrate=5000:vbv-bufsize=10000` (
 | testsrc2, clean | VideoToolbox 5/6 | 4.19 | 36.72 | 0.980 | 5 s |
 | testsrc2, clean | x265 slower CRF 29 | 5.36 | 38.76 | 0.986 | 97 s |
 
-Both clear the server's floors (PSNR 34, SSIM 0.85) by far. Synthetic pictures are not Alex's
+Both clear the server's floors (PSNR 34, SSIM 0.85) by far. Synthetic pictures are not real
 footage: a real export decides whether the quality holds, and its numbers go here.
 
-The M2 Max has two video encode engines; one file uses one. Alex's M2 has one, so his time per
-file should be close to this; measure it on his first real export.
+The M2 Max has two video encode engines; one file uses one. An M2 has one, so its time per file
+should be close to this; measure it on the first real export from one.

@@ -47,16 +47,16 @@ final class PlanTests: XCTestCase {
 }
 
 final class NamingTests: XCTestCase {
-    let folder = URL(fileURLWithPath: "/Users/alex/Movies/iPhoneBlog Uploads")
+    let folder = URL(fileURLWithPath: "/Users/editor/Movies/ProRes Drop")
 
     func testSameNameWithMp4() {
-        let src = URL(fileURLWithPath: "/Users/alex/Desktop/one_245 Apple Event.mov")
+        let src = URL(fileURLWithPath: "/Users/editor/Desktop/Folge 245 Apple Event.mov")
         XCTAssertEqual(Naming.outputURL(for: src, in: folder, exists: { _ in false }).lastPathComponent,
-                       "one_245 Apple Event.mp4")
+                       "Folge 245 Apple Event.mp4")
     }
 
     func testNeverOverwrites() {
-        let src = URL(fileURLWithPath: "/Users/alex/Desktop/Folge 123.mov")
+        let src = URL(fileURLWithPath: "/Users/editor/Desktop/Folge 123.mov")
         let taken: Set<String> = ["Folge 123.mp4", "Folge 123 2.mp4"]
         let out = Naming.outputURL(for: src, in: folder, exists: { taken.contains($0.lastPathComponent) })
         XCTAssertEqual(out.lastPathComponent, "Folge 123 3.mp4")

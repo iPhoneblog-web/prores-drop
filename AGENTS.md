@@ -2,32 +2,33 @@
 
 Rules for agents changing this repository. [README.md](README.md) explains what ProRes Drop is
 and how to build it; read it next, then only the page your task needs. The server it feeds is
-built by the `infra` repository (`~/localprojects/infra`, its own `AGENTS.md`, `docs/video.md`).
+built by the private `infra` repository (its own `AGENTS.md`, `docs/video.md`).
 
 ## 1. Always
 
 - **Write in English**, through `/anthropic-skills:plain-english`: pages, commit messages,
-  answers to Thorsten. The app's screens, its messages and [docs/anleitung.md](docs/anleitung.md)
-  are German, because Alex uses them.
+  answers to the maintainer. The app's screens, its messages and
+  [docs/anleitung.md](docs/anleitung.md) are German, because its users read German.
 - **The server decides the format.** Every number in `Plan.swift` follows infra's
   `roles/encoder/files/video-encode` and its decisions; [docs/encoding.md](docs/encoding.md)
   names the source of each. Change a number there first, with the measurement that justifies it.
-  Never guess a different one: ask Thorsten.
-- **The repository is public.** No secret, no internal hostname or address, no personal data in
-  code, pages or commit messages. Facts about the machines live in `infra`, which is private.
+  Never guess a different one: ask the maintainer.
+- **The repository is public.** No secret, no internal hostname or address, no personal data, no
+  person's or customer's name in code, pages or commit messages. Facts about the machines live
+  in `infra`, which is private.
 - **Run `bin/package` before you push**: the tests, the release build, the signed bundle. CI
   runs the same on every push and pull request; a red run is yours.
 - **Stage named paths.** Never `git add -A`, `git commit -a` or `git stash`.
-- **No signing identity without Thorsten's yes.** `bin/package` signs ad hoc. The Apple
-  Development certificate on Thorsten's Mac does not get past Gatekeeper on another Mac anyway.
-- **Never install anything on Alex's Mac**, and never run the app against `~/Movies` on
-  Thorsten's (§4).
+- **No signing identity without the maintainer's yes.** `bin/package` signs ad hoc. An Apple
+  Development certificate does not get past Gatekeeper on another Mac anyway.
+- **Never install anything on a user's Mac**, and never run the app against `~/Movies` on the
+  maintainer's (§4).
 
 ## 2. Work in your own worktree
 
-**`~/localprojects/prores-drop`, if it exists, is Thorsten's checkout.** No edits, commits or
-branch switches there. Make your own under `~/worktrees` (`~/localprojects` syncs through
-Synology Drive, and `/tmp` is empty after a restart):
+**The maintainer's checkout is theirs.** No edits, commits or branch switches there. Make your
+own worktree under `~/worktrees`, outside any folder a sync service copies (`/tmp` is empty after
+a restart):
 
 ```bash
 git -C <any checkout> fetch origin
@@ -64,7 +65,7 @@ says why; where a number cost a measurement, the message keeps the measurement.
   ```bash
   open -n "dist/ProRes Drop.app" --args -destinationPath /path/to/test-folder
   open -a "$PWD/dist/ProRes Drop.app" some.mov
-  /usr/bin/log show --last 5m --predicate 'subsystem == "de.iphoneblog.prores-drop"'
+  /usr/bin/log show --last 5m --predicate 'subsystem == "io.github.prores-drop"'
   ```
 
   `-destinationPath` is not stored. Quit the app by PID when done.

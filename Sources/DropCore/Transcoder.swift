@@ -351,7 +351,7 @@ private final class PumpEnds: @unchecked Sendable {
 /// append fails.
 private func pump(_ output: AVAssetReaderOutput, into input: AVAssetWriterInput, label: String,
                   ends: PumpEnds, onSample: ((CMTime) -> Void)?) {
-    let queue = DispatchQueue(label: "de.iphoneblog.prores-drop.\(label)")
+    let queue = DispatchQueue(label: "prores-drop.\(label)")
     var finished = false
     input.requestMediaDataWhenReady(on: queue) {
         guard !finished else { return }

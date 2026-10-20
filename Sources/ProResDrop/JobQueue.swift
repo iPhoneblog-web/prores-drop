@@ -31,7 +31,7 @@ final class Job: Identifiable {
 }
 
 /// One encode at a time; the rest wait in the order they came. The media engine does one file
-/// fastest alone, and one at a time keeps the order Alex dropped them in.
+/// fastest alone, and one at a time keeps the order the files were dropped in.
 @MainActor
 @Observable
 final class JobQueue {

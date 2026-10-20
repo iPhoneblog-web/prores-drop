@@ -4,11 +4,14 @@ import Observation
 import os
 @preconcurrency import UserNotifications
 
-/// `log show --predicate 'subsystem == "de.iphoneblog.prores-drop"'` shows what the app did.
-let log = Logger(subsystem: "de.iphoneblog.prores-drop", category: "app")
+/// The bundle id from Info.plist, the one place it is written.
+let bundleID = Bundle.main.bundleIdentifier ?? "prores-drop"
+
+/// `log show --predicate 'subsystem == "io.github.prores-drop"'` shows what the app did.
+let log = Logger(subsystem: bundleID, category: "app")
 
 /// A macOS notification when a file is done or failed. "Im Finder zeigen" on a finished one, and
-/// a click on the notification itself, select the file in Finder. When Alex has not allowed
+/// a click on the notification itself, select the file in Finder. When the user has not allowed
 /// notifications, `allowed` is false and the window says so.
 @MainActor
 @Observable
@@ -32,7 +35,7 @@ final class Notifier: NSObject {
             log.notice("notifications allowed: \(granted, privacy: .public) \(error?.localizedDescription ?? "", privacy: .public)")
             Task { @MainActor in self.allowed = granted }
         }
-        // Alex may switch them on in System Settings while the app runs.
+        // The user may switch them on in System Settings while the app runs.
         NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil,
                                                queue: .main) { _ in
             Task { @MainActor in self.refresh() }
@@ -48,7 +51,7 @@ final class Notifier: NSObject {
 
     /// System Settings, Notifications, this app.
     func openSettings() {
-        let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=de.iphoneblog.prores-drop")!
+        let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=\(bundleID)")!
         NSWorkspace.shared.open(url)
     }
 

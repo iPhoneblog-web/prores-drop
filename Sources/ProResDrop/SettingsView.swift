@@ -17,7 +17,7 @@ struct SettingsView: View {
                         Button("Im Finder zeigen") { destination.reveal() }
                         if !destination.isDefault {
                             Button("Standard") { destination.reset() }
-                                .help("Zurück zu ~/Movies/iPhoneBlog Uploads")
+                                .help("Zurück zu ~/Movies/ProRes Drop")
                         }
                     }
                 }

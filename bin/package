@@ -23,6 +23,9 @@ app="dist/ProRes Drop.app"
 rm -rf dist
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$bin_dir/ProResDrop" "$app/Contents/MacOS/ProResDrop"
+# Without debug symbols the binary carries no build paths, so no user name of the Mac it was
+# built on.
+strip -S -x "$app/Contents/MacOS/ProResDrop"
 sed -e "s/@VERSION@/$version/" -e "s/@BUILD@/$build/" Resources/Info.plist > "$app/Contents/Info.plist"
 plutil -lint "$app/Contents/Info.plist" >/dev/null
 cp Resources/AppIcon.icns "$app/Contents/Resources/AppIcon.icns"
