@@ -2,6 +2,13 @@
 
 Open work, most important first. Delete an item when it is done.
 
+- **Put the repository on GitHub.** It exists only in `~/localprojects/prores-drop` on
+  Thorsten's Mac: on 2026-10-20 the agent's `gh repo create` was refused by its permission
+  check. Thorsten runs, in that checkout:
+  `gh repo create iPhoneblog-web/prores-drop --private --source . --remote origin --push`,
+  then `git push origin v1.0` and
+  `gh release create v1.0 dist/ProRes-Drop-1.0.zip --title "ProRes Drop 1.0" --notes-file docs/anleitung.md`
+  after `bin/package`.
 - **Check against the server's acceptance rule once it lands.** The remux of an HEVC 4K upload
   is decided (infra `docs/TODO.md`, "Uploads without a kept master") but not yet in
   `roles/encoder/files/video-encode` (origin/main e26df02, 2026-10-20). Read the rule, run one
