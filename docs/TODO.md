@@ -15,7 +15,7 @@ Open work, most important first. Delete an item when it is done.
 - **Alex's first real export**: encode time on his M2, the file's bit rate, and whether the
   server remuxes it. The numbers go into [encoding.md](encoding.md), "Measured".
 - **Developer ID and notarisation**, if the Gatekeeper step in [anleitung.md](anleitung.md) is
-  too much for Alex. Needs Apple Developer Program membership and Thorsten's yes; then
-  `bin/package` signs with the identity and runs `notarytool`.
+  too much for Alex. Needs Apple Developer Program membership and Thorsten's yes; then the
+  workflow signs with the identity from a repository secret and runs `notarytool`.
 - **HDR sources** (HLG or PQ from an iPhone timeline) are untested: the colour tags pass
   through, the HDR metadata may not.
